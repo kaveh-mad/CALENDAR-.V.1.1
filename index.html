@@ -83,7 +83,7 @@ button{cursor:pointer}
 .hc-strip .sd small,.hc-strip .sd i{display:none}
 .hc-strip .sd b{font-size:.68rem}
 .hc-strip .sd{padding:2px 4px}
-.sds{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:100%}
+.sds{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:6px;width:100%}
 .sd{text-align:center;overflow:hidden}
 .sd b{white-space:nowrap}
 .sd i{display:block;font-style:normal;font-size:.68rem;color:var(--muted);direction:ltr;font-variant-numeric:tabular-nums}
@@ -434,9 +434,8 @@ const WDFA=['مهرشید','ماه‌شید','بهرام‌شید','تیرشید
 const WSFA=['مه','ما','به','تی','هر','نا','کی'];
 const JM=['فروردین','اردیبهشت','خرداد','تیر','امرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
 const MNFA={
-  jalali:JM,shahan:JM,
+  jalali:JM,shahan:JM,zoro:JM,mith:JM,
   gregorian:['ژانویه','فوریه','مارس','آوریل','مه','ژوئن','ژوئیه','اوت','سپتامبر','اکتبر','نوامبر','دسامبر'],
-  hijri:['ماه یکم','ماه دوم','ماه سوم','ماه چهارم','ماه پنجم','ماه ششم','ماه هفتم','ماه هشتم','ماه نهم','ماه دهم','ماه یازدهم','ماه دوازدهم']
 };
 const LANGS=[['fa','پارسی'],['en','English'],['tr','Türkçe'],['az','Azərbaycanca'],['de','Deutsch'],['fr','Français'],['es','Español'],['pt','Português'],['it','Italiano'],['ru','Русский'],['zh','中文'],['ja','日本語'],['ko','한국어'],['hi','हिन्दी'],['ur','اردو'],['nl','Nederlands'],['pl','Polski'],['uk','Українська'],['sv','Svenska'],['id','Bahasa Indonesia'],['vi','Tiếng Việt'],['th','ไทย'],['el','Ελληνικά'],['cs','Čeština'],['ro','Română'],['hu','Magyar'],['he','עברית'],['fi','Suomi'],['da','Dansk'],['bn','বাংলা']];
 const RTLL={fa:1,ur:1,he:1};
@@ -447,7 +446,7 @@ const CORE=['app','today','month','week','year','settings','layout','search','no
 const TX={};
 TX.fa={
 app:"گاهشمار شاهنشاهی",today:"امروز",month:"ماه",week:"هفته",year:"سال",settings:"گزینه‌ها",layout:"چیدمان",search:"جستجو",notebook:"دفترچه",notes:"یادداشت‌ها",newnote:"یادداشت تازه",addphoto:"افزودن نگاره",alarms:"هشدارها",newalarm:"هشدار تازه",save:"نگهداری",cancel:"بازگشت",delete:"پاک کردن",close:"بستن",language:"زبان",appname:"نام برنامه",appicon:"نماد برنامه",theme:"شیوهٔ روشنایی",auto:"خودکار",light:"روشن",dark:"تیره",done:"پایان",photos:"نگاره‌ها",
-cal_jalali:"خورشیدی",cal_gregorian:"ترسایی",cal_hijri:"ماهی",cal_shahan:"خورشیدی",
+cal_jalali:"خورشیدی",cal_gregorian:"ترسایی",cal_zoro:"زرتشتی",cal_mith:"میترایی",showcal:"نمایش در صفحهٔ نخست",mith_year:"سال میترایی",hint_mith:"سال میترایی مبدأ رسمی و یکسانی ندارد؛ در اینجا امسال (۱۴۰۵) برابر ۷۷۶۰ گرفته شده. اگر مبدأ دیگری می‌خواهید، سال دلخواه را بنویسید. ماه‌ها و روزها خورشیدی‌اند.",cal_shahan:"خورشیدی",
 prev:"پیشین",next:"پسین",presets_l:"چیدمان‌های آماده:",addpanel:"افزودن بخش:",sz4:"باریک",sz6:"میانه",sz8:"پهن",sz12:"تمام",hide:"پنهان کردن",
 ps_classic:"بنیادی",ps_journal:"دفتر یادها",ps_planner:"برنامه‌ریز",ps_album:"نگارستان",ps_compact:"فشرده",ps_focus:"تک‌برگ",
 pn_cal:"گاهشمار",pn_today:"امروز",pn_day:"روز برگزیده",pn_alarms:"هشدارها",pn_upcoming:"پیش رو",pn_mnotes:"یادداشت‌های این ماه",pn_gallery:"نگاره‌ها",pn_occ:"جشن‌های این ماه",pn_conv:"برگردان گاه",pn_book:"دفترچه",
@@ -485,13 +484,13 @@ nb_empty:"دفترچهٔ شما تهی است. نخستین یادداشت را 
 sn_label:"یادداشت امروز",sn_upcoming:"یادداشت‌های پیش رو",
 welcome:"به گاهشمار خوش آمدید. این یادداشت نمونه است؛ آن را ویرایش کنید یا پاک کنید.\nهر روز را برگزینید و یادداشت و نگاره بیفزایید، هشدار بگذارید، و با دکمهٔ چیدمان (بالای برگه) بخش‌ها را جابه‌جا کنید.",
 welcome_al:"نمونه: بیدار شدن",ph_added:"{n} نگاره افزوده شد",ph_fail:"این نگاره خوانده نشد. قالب JPG یا PNG را بیازمایید.",
-o_nowruz1:"نوروز، آغاز سال نو",o_nowruz:"جشن نوروز",o_farv:"فروردینگان",o_ord:"اردیبهشتگان",o_khor:"خردادگان (خردادسال، زادروز زرتشت بزرگ)",o_tir:"تیرگان",o_amor:"امردادگان",o_shah:"شهریورگان",o_mehr:"مهرگان (جشن مهر و میترا)",o_aban:"آبانگان",o_azar:"آذرگان",o_azrb:"روز رهایی آذربایجان (۲۱ آذر ۱۳۲۵)",o_lion:"روز ملی شیر و خورشید",o_yalda:"یلدا (شب چله، زادروز مهر)",o_sade:"سده",o_chsuri:"چهارشنبه‌سوری",
+o_nowruz1:"نوروز، آغاز سال نو",g_ny:"سال نو ترسایی",g_epi:"میلاد مسیح (ارامنهٔ ایران)",g_val:"روز ولنتاین",g_ashw:"چهارشنبهٔ خاکستر",g_palm:"یکشنبهٔ نخل",g_gfri:"جمعهٔ نیک (درگذشت مسیح)",g_east:"عید پاک (رستاخیز مسیح)",g_pent:"پنتیکاست (یکشنبهٔ پنجاهم)",g_may1:"روز جهانی کارگر",g_hall:"هالووین",g_thx:"روز شکرگزاری",g_xeve:"شب میلاد مسیح (کریسمس‌ایو)",g_xmas:"کریسمس، میلاد مسیح",g_nye:"شب سال نو ترسایی",o_nowruz:"جشن نوروز",o_farv:"فروردینگان",o_ord:"اردیبهشتگان",o_khor:"خردادگان (خردادسال، زادروز زرتشت بزرگ)",o_tir:"تیرگان",o_amor:"امردادگان",o_shah:"شهریورگان",o_mehr:"مهرگان (جشن مهر و میترا)",o_aban:"آبانگان",o_azar:"آذرگان",o_azrb:"روز رهایی آذربایجان (۲۱ آذر ۱۳۲۵)",o_lion:"روز ملی شیر و خورشید",o_yalda:"یلدا (شب چله، زادروز مهر)",o_sade:"سده",o_chsuri:"چهارشنبه‌سوری",
 o_cyrus:"زادروز کوروش بزرگ",o_yaqub:"زادروز یعقوب لیث صفاری (تاریخ ناپایا)",o_babak:"سالگرد درگذشت بابک خرم‌دین (تاریخ ناپایا)",o_saadi:"بزرگداشت سعدی",o_sina:"بزرگداشت ابوعلی سینا (روز پزشک)",o_razi:"بزرگداشت زکریای رازی (روز داروسازی)",o_abbas:"زادروز شاه عباس بزرگ",o_nader:"زادروز نادرشاه افشار (تاریخ ناپایا)",o_farah:"زادروز شهبانو فرح پهلوی",o_molavi:"بزرگداشت مولوی (زادروز)",o_hafez:"بزرگداشت حافظ",o_ferd:"بزرگداشت فردوسی",o_khay:"بزرگداشت خیام (زادروز)",o_ruda:"بزرگداشت رودکی",o_rp:"زادروز رضاشاه پهلوی",o_mrp:"زادروز محمدرضا شاه پهلوی"
 };
 
 TX.en={
 app:"Imperial Calendar",today:"Today",month:"Month",week:"Week",year:"Year",settings:"Settings",layout:"Layout",search:"Search",notebook:"Notebook",notes:"Notes",newnote:"New note",addphoto:"Add photo",alarms:"Alarms",newalarm:"New alarm",save:"Save",cancel:"Cancel",delete:"Delete",close:"Close",language:"Language",appname:"App name",appicon:"App icon",theme:"Theme",auto:"Auto",light:"Light",dark:"Dark",done:"Done",photos:"Photos",
-cal_jalali:"Persian",cal_gregorian:"Gregorian",cal_hijri:"Lunar",cal_shahan:"Solar",
+cal_jalali:"Persian",cal_gregorian:"Gregorian",cal_zoro:"Zoroastrian",cal_mith:"Mithraic",showcal:"Show on home page",mith_year:"Mithraic year",hint_mith:"The Mithraic era has no single standard; this year (1405 SH) is set to 7760. Type another year to use a different origin. Months and days are solar.",cal_shahan:"Solar",
 prev:"Previous",next:"Next",presets_l:"Ready layouts:",addpanel:"Add panel:",sz4:"Narrow",sz6:"Medium",sz8:"Wide",sz12:"Full",hide:"Hide",
 ps_classic:"Classic",ps_journal:"Journal",ps_planner:"Planner",ps_album:"Gallery",ps_compact:"Compact",ps_focus:"Single",
 pn_cal:"Calendar",pn_today:"Today",pn_day:"Selected day",pn_alarms:"Alarms",pn_upcoming:"Coming up",pn_mnotes:"Notes of this month",pn_gallery:"Photos",pn_occ:"Festivals this month",pn_conv:"Date converter",pn_book:"Notebook",
@@ -529,7 +528,7 @@ nb_empty:"Your notebook is empty. Write the first note.",nb_noresult:"No note ma
 sn_label:"Today's note",sn_upcoming:"Upcoming notes",
 welcome:"Welcome. This is a sample note; edit or delete it.\nPick any day to add notes and photos, set alarms, and use the layout button (top) to rearrange panels.",
 welcome_al:"Sample: wake up",ph_added:"{n} photo(s) added",ph_fail:"Could not read this photo. Try JPG or PNG.",
-o_nowruz1:"Nowruz, Persian New Year",o_nowruz:"Nowruz festival",o_farv:"Farvardingan",o_ord:"Ordibeheshtgan",o_khor:"Khordadgan (Khordad Sal, birthday of Zoroaster)",o_tir:"Tirgan",o_amor:"Amordadgan",o_shah:"Shahrivargan",o_mehr:"Mehrgan (festival of Mithra)",o_aban:"Abangan",o_azar:"Azargan",o_azrb:"Liberation of Azerbaijan Day (21 Azar 1325 / 12 Dec 1946)",o_lion:"National Lion and Sun Day",o_yalda:"Yalda (Chelleh night, birth of Mithra)",o_sade:"Sadeh",o_chsuri:"Chaharshanbe Suri",
+o_nowruz1:"Nowruz, Persian New Year",g_ny:"New Year's Day",g_epi:"Armenian Christmas (Epiphany)",g_val:"Valentine's Day",g_ashw:"Ash Wednesday",g_palm:"Palm Sunday",g_gfri:"Good Friday",g_east:"Easter (Resurrection of Jesus)",g_pent:"Pentecost",g_may1:"International Workers' Day",g_hall:"Halloween",g_thx:"Thanksgiving",g_xeve:"Christmas Eve",g_xmas:"Christmas, Birth of Jesus",g_nye:"New Year's Eve",o_nowruz:"Nowruz festival",o_farv:"Farvardingan",o_ord:"Ordibeheshtgan",o_khor:"Khordadgan (Khordad Sal, birthday of Zoroaster)",o_tir:"Tirgan",o_amor:"Amordadgan",o_shah:"Shahrivargan",o_mehr:"Mehrgan (festival of Mithra)",o_aban:"Abangan",o_azar:"Azargan",o_azrb:"Liberation of Azerbaijan Day (21 Azar 1325 / 12 Dec 1946)",o_lion:"National Lion and Sun Day",o_yalda:"Yalda (Chelleh night, birth of Mithra)",o_sade:"Sadeh",o_chsuri:"Chaharshanbe Suri",
 o_cyrus:"Birthday of Cyrus the Great",o_yaqub:"Birthday of Ya'qub ibn al-Layth Saffari (date approximate)",o_babak:"Anniversary of the death of Babak Khorramdin (date approximate)",o_saadi:"Saadi Day",o_sina:"Avicenna Day (Doctors' Day)",o_razi:"Razi Day (Pharmacy Day)",o_abbas:"Birthday of Shah Abbas the Great",o_nader:"Birthday of Nader Shah Afshar (date uncertain)",o_farah:"Birthday of Empress Farah Pahlavi",o_molavi:"Rumi Day (birthday)",o_hafez:"Hafez Day",o_ferd:"Ferdowsi Day",o_khay:"Khayyam Day (birthday)",o_ruda:"Rudaki Day",o_rp:"Birthday of Reza Shah Pahlavi",o_mrp:"Birthday of Mohammad Reza Shah Pahlavi"
 };
 const XL={
@@ -617,7 +616,7 @@ function cmApply(){
 }
 
 /* ===== state ===== */
-const DEF={cal:'shahan',impOff:1180,tpl:'beige',tplBg:'#ebe2cf',tplSurface:'#f8f3e7',sunOp:0.85,sunSz:380,lionOp:0.95,lionSz:130,sunImg:'',lionImg:'',hcol:false,todayInk:'#000000',todayBg:'',tcalBg:'',bgImg:'',bgFit:'tile',nbView:'list',myocc:[],bkLast:0,bkRemind:true,brandCol:'',brandFont:'disp',bookPin:'',sec:'gregorian',digits:'fa',weekStart:6,weekend:'fri',fest:true,adj:0,lang:'fa',h12:false,
+const DEF={cal:'shahan',impOff:1180,showShahan:true,showGreg:true,showZoro:false,showMith:false,zOff:2359,mithOff:6355,tpl:'beige',tplBg:'#ebe2cf',tplSurface:'#f8f3e7',sunOp:0.85,sunSz:380,lionOp:0.95,lionSz:130,sunImg:'',lionImg:'',hcol:false,todayInk:'#000000',todayBg:'',tcalBg:'',bgImg:'',bgFit:'tile',nbView:'list',myocc:[],bkLast:0,bkRemind:true,brandCol:'',brandFont:'disp',bookPin:'',sec:'gregorian',digits:'fa',weekStart:6,weekend:'fri',fest:true,adj:0,lang:'fa',h12:false,
   theme:'auto',accent:0,custom:'#0e8f94',font:'vazir',fs:16,radius:14,cell:78,bg:'soft',
   sound:'bell',vol:0.7,snooze:5,wake:false,splash:true,appName:'',appIcon:'sun',appIconData:''};
 const PAL=[{n:'a',l:'#0e8f94',d:'#3cc8c4'},{n:'b',l:'#2c4fa3',d:'#7aa2ff'},{n:'c',l:'#b87400',d:'#f2b53a'},{n:'d',l:'#b4303f',d:'#ff7f8e'},{n:'e',l:'#2a8a56',d:'#5fd49a'},{n:'f',l:'#7a3fb0',d:'#bd8bff'},{n:'g',l:'#c9502a',d:'#ff9366'},{n:'h',l:'#3b4a52',d:'#a9bcc6'}];
@@ -650,17 +649,20 @@ function T(k,v){
 const rtl=()=>!!RTLL[S.settings.lang];
 const N=n=>{const s=String(n),L=S.settings.lang;return(S.settings.digits==='fa'&&(L==='fa'||L==='ur'))?s.replace(/\d/g,d=>FA[d]):s};
 const C=()=>S.settings.cal,adj=()=>S.settings.adj|0;
-const CN=()=>({shahan:T('cal_shahan'),gregorian:T('cal_gregorian'),hijri:T('cal_hijri')});
+const CN=()=>({shahan:T('cal_shahan'),gregorian:T('cal_gregorian'),zoro:T('cal_zoro'),mith:T('cal_mith')});
+const CKEYS=['shahan','gregorian','zoro','mith'];
+const SHOWK={shahan:'showShahan',gregorian:'showGreg',zoro:'showZoro',mith:'showMith'};
+const shown=()=>{const a=CKEYS.filter(k=>S.settings[SHOWK[k]]||k===C());return a.length?a:['shahan','gregorian']};
+const OFFY=c=>c==='jalali'?0:c==='zoro'?(S.settings.zOff|0):c==='mith'?(S.settings.mithOff|0):S.settings.impOff;
 function monthName(c,m){
-  const L=S.settings.lang;if(L==='fa')return MNFA[c][m-1];
+  const L=S.settings.lang;if(L==='fa')return (MNFA[c]||JM)[m-1];
   const key=L+c+m;if(NC[key])return NC[key];
   try{
     let d,cal;
     if(c==='gregorian'){d=new Date(2026,m-1,15,12);cal='gregory'}
-    else if(c==='hijri'){const g=d2g(h2j(1448,m,15));d=new Date(g.gy,g.gm-1,g.gd,12);cal='islamic-civil'}
     else{const g=d2g(j2d(1405,m,15));d=new Date(g.gy,g.gm-1,g.gd,12);cal='persian'}
     return NC[key]=new Intl.DateTimeFormat(L+'-u-ca-'+cal,{month:'long'}).format(d);
-  }catch(e){return NC[key]=MNFA[c][m-1]}
+  }catch(e){return NC[key]=(MNFA[c]||JM)[m-1]}
 }
 function wdName(i,short){
   const L=S.settings.lang;if(L==='fa')return short?WSFA[i]:WDFA[i];
@@ -668,12 +670,10 @@ function wdName(i,short){
   try{return NC[k]=new Intl.DateTimeFormat(L,{weekday:short?'short':'long'}).format(new Date(2026,0,4+i,12))}catch(e){return WDFA[i]}
 }
 const ymd=(c,j)=>{
-  if(c==='jalali'){const r=d2j(j);return{y:r.jy,m:r.jm,d:r.jd}}
-  if(c==='shahan'){const r=d2j(j);return{y:r.jy+S.settings.impOff,m:r.jm,d:r.jd}}
   if(c==='gregorian'){const r=d2g(j);return{y:r.gy,m:r.gm,d:r.gd}}
-  return j2h(j+adj());
+  const r=d2j(j);return{y:r.jy+OFFY(c),m:r.jm,d:r.jd};
 };
-const toJ=(c,y,m,d)=>c==='jalali'?j2d(y,m,d):c==='shahan'?j2d(y-S.settings.impOff,m,d):c==='gregorian'?g2d(y,m,d):h2j(y,m,d)-adj();
+const toJ=(c,y,m,d)=>c==='gregorian'?g2d(y,m,d):j2d(y-OFFY(c),m,d);
 const addM=(y,m,k)=>{const t=y*12+(m-1)+k;return{y:Math.floor(t/12),m:((t%12)+12)%12+1}};
 const mStart=(c,y,m)=>toJ(c,y,m,1);
 const mLen=(c,y,m)=>{const n=addM(y,m,1);return mStart(c,n.y,n.m)-mStart(c,y,m)};
@@ -700,6 +700,16 @@ function isChSuri(j,a){
   if(a.jm<12||wd(j)!==2)return false;
   const end=j2d(a.jy+1,1,1)-1;return j+1<=end&&j+8>end;
 }
+const FESTG={'1/1':'g_ny','1/6':'g_epi','2/14':'g_val','5/1':'g_may1','10/31':'g_hall','12/24':'g_xeve','12/25':'g_xmas','12/31':'g_nye'};
+function easterJ(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=(h+l-7*m+114)%31+1;return g2d(y,mo,da)}
+function occG(j){
+  const g=d2g(j),out=[],add=k=>out.push({k:k,t:T(k),h:false});
+  if(FESTG[g.gm+'/'+g.gd])add(FESTG[g.gm+'/'+g.gd]);
+  const E=easterJ(g.gy),dd=j-E;
+  if(dd===0)add('g_east');else if(dd===-2)add('g_gfri');else if(dd===-7)add('g_palm');else if(dd===-46)add('g_ashw');else if(dd===49)add('g_pent');
+  if(g.gm===11&&wd(j)===4&&g.gd>=22&&g.gd<=28)add('g_thx');
+  return out;
+}
 function occ(j){
   const out=[];
   (S.settings.myocc||[]).forEach(m=>{if(myOccOn(m,j))out.push({k:'my',t:({birth:'🎂 ',anniv:'💍 ',other:'⭐ '})[m.k]+m.t,h:false})});
@@ -708,6 +718,7 @@ function occ(j){
   if(f)out.push({k:f[0],t:T(f[0]),h:!!f[1]});
   (FEST2[a.jm+'/'+a.jd]||[]).forEach(k=>out.push({k:k,t:T(k),h:false}));
   if(isChSuri(j,a))out.push({k:'o_chsuri',t:T('o_chsuri'),h:false});
+  if(C()==='gregorian')occG(j).forEach(x=>out.push(x));
   return out;
 }
 const isOff=j=>wkSet().indexOf(wd(j))>-1||occ(j).some(o=>o.h);
@@ -1049,7 +1060,7 @@ const PE={};
 const vis=id=>{const l=S.layout.find(x=>x.id===id);return l&&l.on};
 function renderChrome(){
   const cn=CN(),c=C();
-  $('#calseg').innerHTML=Object.keys(cn).map(k=>'<button type="button" class="'+(c===k?'on':'')+'" data-act="setcal" data-arg="'+k+'">'+esc(cn[k])+'</button>').join('');
+  $('#calseg').innerHTML=shown().map(k=>'<button type="button" class="'+(c===k?'on':'')+'" data-act="setcal" data-arg="'+k+'">'+esc(cn[k])+'</button>').join('');
   $('#nbbtn').innerHTML='<button class="btn pri" data-act="notebook">'+ic('book',16)+esc(T('notebook'))+(S.book.length&&!nbLocked()?' <span class="cnt">'+N(S.book.length)+'</span>':'')+'</button>';
   $('#tools').innerHTML='<button class="btn" data-act="today">'+esc(T('today'))+'</button><button class="ib" data-act="search" aria-label="'+esc(T('search'))+'" title="'+esc(T('search'))+'">'+ic('search')+'</button><button class="ib'+(V.edit?' on':'')+'" data-act="layout" aria-label="'+esc(T('layout'))+'" title="'+esc(T('layout'))+'">'+ic('layout')+'</button><button class="ib" data-act="alarmc" aria-label="'+esc(T('alc_title'))+'" title="'+esc(T('alc_title'))+'">'+ic('bell')+'</button><button class="ib" data-act="settings" aria-label="'+esc(T('settings'))+'" title="'+esc(T('settings'))+'">'+ic('gear')+'</button>';
   $('#top').classList.toggle('hc',!!S.settings.hcol);$('#strip').classList.toggle('hc-strip',!!S.settings.hcol);
@@ -1086,7 +1097,7 @@ function snip(n){return(n.title||'')+(n.title&&n.text?' · ':'')+n.text.trim().r
 function renderStrip(){
   const el=$('#strip');if(!el)return;
   const j=todayJ(),c=C(),cn=CN();
-  let h='<div class="sds">'+Object.keys(cn).map(k=>'<div class="sd'+(k===c?' main':'')+'"><small>'+esc(cn[k])+'</small><b>'+esc(fmt(j,k))+'</b><i>'+esc(numDate(k,j))+'</i></div>').join('')+'</div>';
+  const shw=shown();let h='<div class="sds" style="--n:'+shw.length+'">'+shw.map(k=>'<div class="sd'+(k===c?' main':'')+'"><small>'+esc(cn[k])+'</small><b>'+esc(fmt(j,k))+'</b><i>'+esc(numDate(k,j))+'</i></div>').join('')+'</div>';
   const items=[];
   for(let i=0;i<14&&items.length<4;i++){
     const d=j+i;dayItems(d).filter(hasN).forEach(n=>{if(items.length<4)items.push({d,n})});
@@ -1156,9 +1167,9 @@ const STAR='<svg class="star" viewBox="0 0 100 100" fill="none" stroke="currentC
 function nextAlarm(){let best=null;S.alarms.forEach(a=>{if(!a.on)return;const d=nextOcc(a);if(d&&(!best||d<best.d))best={a,d}});return best}
 function renderToday(el){
   const j=todayJ(),o=occ(j),na=nextAlarm(),cn=CN();
-  const boxes=['shahan','gregorian','hijri'].map(k=>{
+  const boxes=shown().map(k=>{
     const a=ymd(k,j);
-    return '<div class="tcal"><small>'+esc(cn[k])+'</small><b>'+esc(N(a.d)+' '+monthName(k,a.m)+' '+N(a.y))+'</b>'+(k==='gregorian'?'<em class="enwd" dir="ltr">'+esc(new Intl.DateTimeFormat('en',{weekday:'long'}).format(new Date(ymd('gregorian',j).y,ymd('gregorian',j).m-1,ymd('gregorian',j).d,12)))+'</em>':'')+'<i>'+esc(numDate(k,j))+' · '+esc(monthOrd(a.m))+(k==='shahan'?' · '+esc(N(a.d)+' – '+DAYNM[a.d-1]):'')+'</i></div>';
+    return '<div class="tcal"><small>'+esc(cn[k])+'</small><b>'+esc(N(a.d)+' '+monthName(k,a.m)+' '+N(a.y))+'</b>'+(k==='gregorian'?'<em class="enwd" dir="ltr">'+esc(new Intl.DateTimeFormat('en',{weekday:'long'}).format(new Date(ymd('gregorian',j).y,ymd('gregorian',j).m-1,ymd('gregorian',j).d,12)))+'</em>':'')+'<i>'+esc(numDate(k,j))+' · '+esc(monthOrd(a.m))+((k==='shahan'||k==='zoro')?' · '+esc(N(a.d)+' – '+DAYNM[a.d-1]):'')+'</i></div>';
   }).join('');
   el.innerHTML='<div class="todaycard">'+['lion'].map(k=>{const u=embSrc(k);return u?'<img class="emb '+k+'" src="'+esc(u)+'" alt="">':''}).join('')+'<button class="ib cardclr" data-act="cardclr" aria-label="'+esc(T('card_clr'))+'" title="'+esc(T('card_clr'))+'">'+ic('palette',16)+'</button><div class="tw">'+esc(N(((wd(j)-S.settings.weekStart)%7+7)%7+1)+' - '+wdName(wd(j)))+'</div><div class="tclock" id="liveclock"></div>'+boxes+
     (o.length?'<div class="tchips">'+o.map(x=>'<span class="chip">'+esc(x.t)+'</span>').join('')+'</div>':'')+
@@ -1179,7 +1190,7 @@ function noteHTML(n){
 function dayInner(j){
   const c=C(),o=occ(j),cn=CN();
   const it=dayItems(j).slice().sort((a,b)=>(b.pin?1:0)-(a.pin?1:0)||(a.time||'99').localeCompare(b.time||'99')||a.created-b.created),al=alarmsOn(j).sort((a,b)=>a.time.localeCompare(b.time));
-  const others=Object.keys(cn).filter(x=>x!==c).map(x=>fmt(j,x)).join(' · ');
+  const others=shown().filter(x=>x!==c).map(x=>fmt(j,x)).join(' · ');
   let h='<div class="dhead"><div><div class="dwd">'+esc(wdName(wd(j)))+(j===todayJ()?esc(T('is_today')):'')+'</div><div class="dfull">'+esc(fmt(j,c))+'</div><div class="dsub">'+esc(others)+'</div></div><div class="dnav"><button class="ib" data-act="dnav" data-arg="-1" aria-label="'+esc(T('prev'))+'">'+icPrev()+'</button><button class="ib" data-act="dnav" data-arg="1" aria-label="'+esc(T('next'))+'">'+icNext()+'</button></div></div>';
   if(o.length)h+='<div class="chips">'+o.map(x=>'<span class="chip'+(x.h?' h':' f')+'">'+esc(x.t)+(x.h?' · '+esc(T('offday')):'')+'</span>').join('')+'</div>';
   h+='<div class="sect"><h3>'+esc(T('alarms'))+'</h3><button class="btn sm" data-act="addalarm" data-arg="'+j+'">'+ic('plus',14)+esc(T('alarm1'))+'</button></div>';
@@ -1569,12 +1580,12 @@ function alarmFormBody(a,j,emb){
       '<div class="cu">'+st('m',1)+'<input id="al-mi" class="cin" type="text" inputmode="numeric" autocomplete="off" maxlength="2" value="'+N(pad(+tp[1]))+'" aria-label="'+esc(T('al_min'))+'">'+st('m',-1)+'</div>'+
       (H12?'<div class="apseg v"><input type="hidden" id="al-ap" value="'+(pm?'PM':'AM')+'"><button type="button" class="btn apb'+(pm?'':' pri')+'" data-act="ampm" data-arg="AM">AM<small>'+esc(T('am_n'))+'</small></button><button type="button" class="btn apb'+(pm?' pri':'')+'" data-act="ampm" data-arg="PM">PM<small>'+esc(T('pm_n'))+'</small></button></div>':'')+
     '</div><div class="crow" style="justify-content:center;margin:4px 0 0"><button type="button" class="chip" data-act="t12">'+esc(H12?T('clk24'):T('clk12'))+'</button></div></div>'+
-    '<div class="field"><label>'+esc(T('al_date'))+' ('+esc(CN()[c])+')</label>'+dsel('al',c,jOfKey(a.date))+'</div>'+
+    '<div class="field"><label>'+esc(T('al_date'))+' ('+esc(CN()[c])+')</label><div class="crow" style="margin:0;justify-content:space-between;align-items:center">'+dsel('al',c,jOfKey(a.date))+'<button class="btn pri" data-act="savealarm" data-arg="'+(a.id||'')+'">'+esc(T('save'))+'</button></div></div>'+
     '<div class="field"><label for="al-r">'+esc(T('al_repeat'))+'</label><select id="al-r">'+REPK.map(k=>'<option value="'+k+'"'+(a.repeat===k?' selected':'')+'>'+esc(T('rep_'+k))+'</option>').join('')+'</select></div>'+
     '<div class="field"><label for="al-md">'+esc(T('al_md'))+'</label><input id="al-md" type="text" inputmode="numeric" autocomplete="off" style="width:84px" value="'+N(mdv)+'"></div>'+
     '<div class="field"><label for="al-s">'+esc(T('al_sound'))+'</label><div class="crow" style="margin:0"><select id="al-s">'+Object.keys(SND).map(k=>'<option value="'+k+'"'+(a.sound===k?' selected':'')+'>'+esc(T('sn_'+k))+'</option>').join('')+'</select><button class="btn sm" type="button" data-act="sndprev">'+ic('bell',14)+esc(T('play'))+'</button></div></div>'+
     '<div class="field"><label for="al-n">'+esc(T('al_note'))+'</label><input id="al-n" type="text" value="'+esc(a.note||'')+'" placeholder="'+esc(T('optional'))+'"></div>'+
-    '<div class="crow" style="justify-content:flex-end;margin:0">'+(emb?'':'<button class="btn" data-act="close">'+esc(T('cancel'))+'</button>')+'<button class="btn pri" data-act="savealarm" data-arg="'+(a.id||'')+'">'+esc(T('save'))+'</button></div>';
+    (emb?'':'<div class="crow" style="justify-content:flex-end;margin:0"><button class="btn" data-act="close">'+esc(T('cancel'))+'</button></div>');
 }
 function alarmForm(a,j){
   const isNew=!a;
@@ -1674,8 +1685,9 @@ function settingsHTML(){
   row(T('imp_year'),'<input type="number" data-set="impYear" min="1" max="9999" step="1" value="'+(d2j(todayJ()).jy+s.impOff)+'" style="max-width:110px">')+
   '<div class="hint">'+esc(T('hint_imp'))+'</div>'+
   row(T('fest_show'),sw('fest'))+
-  row(T('adj'),sel('adj',[-2,-1,0,1,2].map(v=>[v,v<0?T('adj_m',{n:N(-v)}):v>0?T('adj_p',{n:N(v)}):T('adj_0')]),'n'))+
-  '<div class="hint">'+esc(T('hint_adj'))+'</div>'+
+  CKEYS.map(k=>row(T('showcal')+' – '+cn[k],sw(SHOWK[k]))).join('')+
+  row(T('mith_year'),'<input type="number" data-set="mithYear" min="1" max="99999" step="1" value="'+(d2j(todayJ()).jy+(s.mithOff|0))+'" style="max-width:110px">')+
+  '<div class="hint">'+esc(T('hint_mith'))+'</div>'+
   '<div class="sgroup">'+esc(T('set_nbl'))+'</div>'+
   (s.bookPin?row(T('nb_pin_old'),'<input type="password" id="pinold" inputmode="numeric" maxlength="12" style="max-width:130px" autocomplete="off">'):'')+
   row(T('nb_pin_new'),'<input type="password" id="pinnew" inputmode="numeric" maxlength="12" style="max-width:130px" autocomplete="off">')+
@@ -1973,6 +1985,7 @@ document.addEventListener('change',e=>{
   if(t.id==='cv-c'){V.cv.c=t.value;renderPanel('conv');return}
   const ds=t.closest&&t.closest('.dsel');
   if(ds){const p=ds.dataset.p;if(t.id.slice(-2)!=='-d')fixDsel(p);if(p==='cv'){V.cv.j=readDsel('cv');renderPanel('conv')}return}
+  if(t.dataset.set==='mithYear'){const n=parseInt(t.value,10);if(n>0&&n<99999){S.settings.mithOff=n-d2j(todayJ()).jy;persist('settings');renderAll()}return}
   if(t.dataset.set==='impYear'){const n=parseInt(t.value,10);if(n>0&&n<9999){S.settings.impOff=n-d2j(todayJ()).jy;persist('settings');renderAll()}return}
   if(t.dataset.set==='h12'){applySet(t);renderAll();openAlarmCenter();return}
   if(t.dataset.set&&t.type!=='range'&&t.dataset.set!=='appName')applySet(t);
@@ -1984,6 +1997,7 @@ function applySet(t){
   const k=t.dataset.set,ty=t.dataset.t;let v=t.value;
   if(ty==='n')v=+v;else if(ty==='b')v=t.checked;
   S.settings[k]=v;if(k==='custom')S.settings.accent=-1;
+  if(/^show(Shahan|Greg|Zoro|Mith)$/.test(k)){const ks=CKEYS.filter(x=>S.settings[SHOWK[x]]);if(!ks.length){S.settings[k]=true;t.checked=true;return}if(!S.settings[SHOWK[C()]])S.settings.cal=ks[0]}
   if(k==='brandFont'){persist('settings');applyBrand();return}
   if(k==='todayInk'||k==='todayBg'||k==='tcalBg'){persist('settings');applyTheme();return}
   if(k==='tplBg'||k==='tplSurface'){S.settings.tpl='custom';$$('.tplb').forEach(b=>b.classList.toggle('on',b.dataset.arg==='custom'))}
@@ -2074,6 +2088,9 @@ function fixLayout(){
   const z=S.settings;if(z.cal==='jalali')z.cal='shahan';if(z.sec==='jalali')z.sec='shahan';
   if(typeof z.impOff!=='number')z.impOff=1180;if(!z.emb2){z.emb2=1;if(z.appIcon==='g0'&&!z.appIconData)z.appIcon='sun';persist('settings')}if(TPK.indexOf(z.tpl)<0)z.tpl='beige';
   if(V.cv.c==='jalali')V.cv.c='shahan';
+  if(CKEYS.indexOf(z.cal)<0)z.cal='shahan';if(z.sec!=='none'&&CKEYS.indexOf(z.sec)<0)z.sec='gregorian';
+  if(CKEYS.indexOf(V.cv.c)<0)V.cv.c='shahan';
+  (z.myocc||[]).forEach(m=>{if(CKEYS.indexOf(m.cal)<0)m.cal='shahan'});(S.alarms||[]).forEach(a=>{if(a.mc&&CKEYS.indexOf(a.mc)<0)a.mc='shahan'});
 }
 boot();
 })();
